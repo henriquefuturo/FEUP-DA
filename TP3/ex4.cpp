@@ -5,8 +5,40 @@
 #include <algorithm>
 
 double fractionalKnapsackGR(unsigned int values[], unsigned int weights[], unsigned int n, unsigned int maxWeight, double usedItems[]) {
-    // TODO
-    return 0.0;
+    double value = 0.0;
+    unsigned int weight = 0;
+
+    for (int i = 0; i < n; i++) {
+        usedItems[i] = 0.0;
+    }
+
+    while (weight < maxWeight) {
+        int elementPos;
+        double optimal = 0.0;
+
+        //pics most optimal element
+        for (int i = 0; i < n; i++) {
+            if ((double)values[i] / (double)weights[i] > optimal) {
+
+                //checks if element was already used
+                if(usedItems[i] != 0.0) continue;
+
+                optimal = (double)values[i] / (double)weights[i];
+                elementPos = i;
+            }
+        }
+
+        if (weight + weights[elementPos] <= maxWeight) {
+            usedItems[elementPos] = 1;
+        }
+        else {
+            usedItems[elementPos] = (double)(maxWeight - weight) / weights[elementPos];
+        }
+        weight += weights[elementPos];
+        value += values[elementPos] * usedItems[elementPos];
+    }
+
+    return value;
 }
 
 /// TESTS ///

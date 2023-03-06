@@ -1,10 +1,12 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
-
+#include <iostream>
+#include <iostream>
 bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsigned int T, unsigned int usedCoins[]) {
     bool candidate[n];
-    int minQuantity = INT16_MIN;
+    int minQuantity = INT16_MAX;
+    unsigned int S[n];
 
     for(int i = 0; i < n; i++) {
         candidate[i] = false;
@@ -14,7 +16,29 @@ bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
         unsigned int quantity = 0;
         unsigned int total = 0;
 
+        for (int i = 0; i < n; i++) {
+            S[i] = Stock[i];
+        }
 
+        for (int i = n-1; i >= 0; i--) {
+            if (!candidate[i]) continue;
+               while (S[i] > 0) {
+                if (total + C[i] > T) break;
+                total += C[i];
+                S[i] -= 1;
+                quantity++;
+            }
+            if(total == T) break;
+        }
+
+        if(total == T) {
+            if (quantity < minQuantity) {
+                minQuantity = quantity;
+                for (int i = 0; i < n; i++) {
+                    usedCoins[i] = abs((long)S[i] - (long)Stock[i]);
+                }
+            }
+        }
 
         //da 'shift' aos elementos do vetor currCandidate
         int currIndex = 0;
@@ -30,6 +54,8 @@ bool changeMakingBF(unsigned int C[], unsigned int Stock[], unsigned int n, unsi
         }
         candidate[currIndex] = true;
     }
+
+    if(minQuantity != INT16_MAX) return true;
     return false;
 }
 

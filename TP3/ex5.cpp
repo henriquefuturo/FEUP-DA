@@ -5,7 +5,6 @@
 #include "MSTTestAux.h"
 
 std::vector<Vertex *> GreedyGraph::prim() {
-    // TODO
     return this->vertexSet;
 }
 

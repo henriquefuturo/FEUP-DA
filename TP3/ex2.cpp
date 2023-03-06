@@ -1,7 +1,7 @@
 // By: Gonçalo Leão
 
 #include "exercises.h"
-
+#include <iostream>
 #include <algorithm>
 
 bool Activity::operator==(const Activity &a2) const {
@@ -9,14 +9,24 @@ bool Activity::operator==(const Activity &a2) const {
 }
 
 bool Activity::operator<(const Activity &a2) const {
-    // TODO
-    return false;
+    return finish < a2.finish;
 }
 
 // Time: O(N*log(N)), Space: O(N), where N is the number of activities
 std::vector<Activity> activitySelectionGR(std::vector<Activity> A) {
     std::vector<Activity> selected;
-    // TODO
+    std::sort(A.begin(), A.end());
+
+    int count = 0;
+    selected.push_back(A.at(0));
+
+    for(int j = 1; j < A.size(); j++) {
+        if(selected.at(count) < A.at(j) && A.at(j).start > selected.at(count).finish) {
+            selected.push_back(A.at(j));
+            count++;
+        }
+    }
+
     return selected;
 }
 
