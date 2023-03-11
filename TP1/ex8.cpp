@@ -6,7 +6,12 @@
 
 std::vector<int> heapSort(std::vector<int> v) {
     std::vector<int> res;
-    // TODO
+    Heap heap(v);
+
+    while (!heap.empty()) {
+        res.push_back(heap.extractMin());
+    }
+
     return res;
 }
 

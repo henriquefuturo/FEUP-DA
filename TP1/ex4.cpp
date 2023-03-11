@@ -4,8 +4,43 @@
 
 std::vector<int> IntroGraph::topsort() const {
     std::vector<int> res;
-    // TODO
+    std::stack<int> s;
+    if(!isDAG()) {
+        return res;
+    }
+
+    for (auto& v : getVertexSet()) {
+        v->setVisited(false);
+    }
+
+    for (auto& v : getVertexSet()) {
+        if (!v->isVisited()) {
+            topsortDfs(v, s);
+        }
+    }
+
+    while (!s.empty()) {
+        res.push_back(s.top());
+        s.pop();
+    }
+
+    if (res.size() != getNumVertex()) {
+        res.clear();
+        return res;
+    }
+
     return res;
+}
+
+void IntroGraph::topsortDfs(Vertex *v, std::stack<int> & s) const {
+    v->setVisited(true);
+    for (auto& e : v->getAdj()) {
+        Vertex* vertex = e->getDest();
+        if (!vertex->isVisited()) {
+            topsortDfs(vertex, s);
+        }
+    }
+    s.push(v->getId());
 }
 
 /// TESTS ///

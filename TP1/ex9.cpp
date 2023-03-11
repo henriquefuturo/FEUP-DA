@@ -5,8 +5,14 @@
 #include "../data_structures/Heap.h"
 
 int kthSmallest(unsigned int k, std::vector<int> v) {
-    // TODO
-    return 0;
+    int smallest;
+    Heap heap(v);
+
+    for (int i = 1; i <= k; i++) {
+        smallest = heap.extractMin();
+    }
+
+    return smallest;
 }
 
 /// TESTS ///

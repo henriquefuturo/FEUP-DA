@@ -6,7 +6,35 @@
 
 std::vector<int> IntroGraph::bfs(const int & source) const {
     std::vector<int> res;
-    // TODO
+    std::queue<Vertex*> q;
+
+    Vertex* v = findVertex(source);
+
+    if (v == nullptr) {
+        return res;
+    }
+
+    for (auto& v : getVertexSet()) {
+        v->setVisited(false);
+    }
+
+    q.push(v);
+    v->setVisited(true);
+    while (!q.empty()) {
+        Vertex* v = q.front();
+        res.push_back(v->getId());
+        q.pop();
+        std::vector<Edge*> edges = v->getAdj();
+        for (auto& e : edges) {
+            Vertex* neighbor = e->getDest();
+            if(!neighbor->isVisited()) {
+                q.push(neighbor);
+                neighbor->setVisited(true);
+            }
+        }
+    }
+
+
     return res;
 }
 

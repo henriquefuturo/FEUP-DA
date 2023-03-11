@@ -3,12 +3,52 @@
 #include "exercises.h"
 
 bool IntroGraph::removeEdge(const int &source, const int &dest) {
-    // TODO
+    Vertex* srcVertex = nullptr;
+
+    for (auto& v : getVertexSet()) {
+        if (v->getId() == source) {
+            srcVertex = v;
+        }
+    }
+
+    if (srcVertex == nullptr)
+        return false;
+
+    std::vector<Edge*> edges = srcVertex->getAdj();
+
+    for (auto& e : edges) {
+        if (e->getDest()->getId() == dest) {
+            if (srcVertex->removeEdge(e->getDest()->getId())) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
 bool IntroGraph::removeVertex(const int &id) {
-    // TODO
+    std::vector<Vertex*> &vs = vertexSet;
+    int count = 0;
+
+    for (auto& v : vs) {
+        if(v->getId() == id) {
+            //removes edges to source ( ? -> id )
+            for (auto& u : vs) {
+                u->removeEdge(id);
+            }
+
+            //removes edges from source ( id -> ? )
+            v->removeOutgoingEdges();
+
+            //removes vertex from vertexSet and deletes it
+            vs.erase(vs.begin() + count);
+            delete v;
+            return true;
+        }
+        count++;
+    }
+
     return false;
 }
 

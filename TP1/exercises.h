@@ -28,7 +28,11 @@ public:
     // Ex 6
     std::vector<std::vector<int>> computeSCCs() const;
 protected:
-    // TODO: Add auxiliary methods if needed
+    void dfsVisit(Vertex* v, std::vector<int> & res) const;
+    void topsortDfs(Vertex* v, std::stack<int> & s) const;
+    bool dagDfs(Vertex* v) const;
+    void firstKosarajuSharirDFS(Vertex* v, std::stack<Vertex*> & s) const;
+    void secondKosarajuSharirDFS(Vertex* v, std::vector<int> & res) const;
 };
 
 // Ex 8
